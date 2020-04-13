@@ -19,7 +19,7 @@ import '../node_modules/jquery/dist/jquery.min';
 import '../node_modules/popper.js/dist/popper';
 
 import User from "./components/pages/Users";
-import EBEntry from "./components/pages/EBEntry";
+import EBEntry from "./components/pages/EBManager/EBEntry";
 import Landing from "./components/layout/Landing";
 
 if (localStorage.jwtToken) {

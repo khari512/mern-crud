@@ -6,11 +6,11 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import UpdateModal from "../partials/UpdateModal";
+import UpdateModal from "components/partials/UpdateModal";
 import { toast, ToastContainer} from "react-toastify";
-import DefaultLayout from "../layout/DefaultLayout";
+import DefaultLayout from "components/layout/DefaultLayout";
 
-import EBListMetadata from "./metadata/ebListMetadata";
+import EBListMetadata from "components/pages/metadata/ebListMetadata";
 
 class EBEntry extends Component {
 
