@@ -20,6 +20,8 @@ import '../node_modules/popper.js/dist/popper';
 
 import User from "./components/pages/Users";
 import EBEntry from "./components/pages/EBManager/EBEntry";
+import EBDueList from "./components/pages/EBManager/EBDueList";
+
 import Landing from "./components/layout/Landing";
 
 if (localStorage.jwtToken) {
@@ -48,7 +50,8 @@ class App extends Component {
                             <Switch>
                                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                                 <PrivateRoute exact path="/users" component={User} />
-                                <PrivateRoute exact path="/ebList" component={EBEntry} />
+                                <PrivateRoute exact path="/eb-list" component={EBEntry} />
+                                <PrivateRoute exact path="/eb-due-list" component={EBDueList} />
                             </Switch>
                             <Route exact path="*" component={NotFound} />
                         </Switch>

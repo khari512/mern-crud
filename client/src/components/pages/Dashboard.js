@@ -42,7 +42,7 @@ class Dashboard extends Component {
                                         <div className="card-body">
                                             <h5 className="card-title">EB Manager</h5>
                                             <p className="card-text">Description about EB Manager.</p>
-                                            <a href="/ebList" className="btn btn-light">EB Manager</a>
+                                            <a href="/eb-list" className="btn btn-light">EB Manager</a>
                                         </div>
                                     </div>
                                 </div>
