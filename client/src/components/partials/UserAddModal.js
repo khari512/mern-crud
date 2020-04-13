@@ -23,6 +23,7 @@ class UserAddModal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        debugger;
         if (nextProps.errors) {
             this.setState({
                 errors: nextProps.errors
@@ -44,6 +45,7 @@ class UserAddModal extends React.Component {
     };
 
     onUserAdd = e => {
+       
         e.preventDefault();
         const newUser = {
             name: this.state.name,

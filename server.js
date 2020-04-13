@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(bodyParser.json());
 
-app.listen(9000);
+//app.listen(9000);
 
 const db = require('./config/keys').mongoURI;
 

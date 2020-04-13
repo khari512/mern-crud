@@ -32,8 +32,7 @@ class Dashboard extends Component {
                                     <div className="card bg-primary text-white shadow-lg">
                                         <div className="card-body">
                                             <h5 className="card-title">Users</h5>
-                                            <p className="card-text">With supporting text below as a natural lead-in to
-                                                additional content.</p>
+                                            <p className="card-text">Create, Edit Delete Users to manage this application here.</p>
                                             <Link to="/users" className="btn btn-light"><FontAwesomeIcon className="text-primary" icon={faUserAlt}/> Go to Users</Link>
                                         </div>
                                     </div>
@@ -41,10 +40,9 @@ class Dashboard extends Component {
                                 <div className="col-sm-3 p-sm-2">
                                     <div className="card bg-secondary text-white shadow-lg">
                                         <div className="card-body">
-                                            <h5 className="card-title">Special title treatment</h5>
-                                            <p className="card-text">With supporting text below as a natural lead-in to
-                                                additional content.</p>
-                                            <a href="#" className="btn btn-light">Go somewhere</a>
+                                            <h5 className="card-title">EB Manager</h5>
+                                            <p className="card-text">Description about EB Manager.</p>
+                                            <a href="/ebList" className="btn btn-light">EB Manager</a>
                                         </div>
                                     </div>
                                 </div>

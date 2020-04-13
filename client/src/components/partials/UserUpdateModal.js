@@ -8,21 +8,39 @@ import { toast } from 'react-toastify';
 import $ from 'jquery';
 
 import 'react-toastify/dist/ReactToastify.css';
+import FieldRenderer from '../common/FieldRenderer';
 
 class UserUpdateModal extends React.Component {
 
     constructor(props) {
         super(props);
+
+        const { id, name, email  } = this.props.record || {};
+
+        const metadata = props.metadata; // metadat form 
+        const record = props.record || {}; // Actual Data from service
+        const initState = {};
+
+        metadata.map( field => {
+            const { name } = field;
+           
+            initState[name] = record[name];
+        });
+
+        console.log(initState);
+        console.log(props);
+
         this.state = {
-            id: this.props.record.id,
-            name: this.props.record.name,
-            email: this.props.record.email,
+           ...initState,
             password: '',
             errors: {},
         };
+
     }
 
+    
     componentWillReceiveProps(nextProps) {
+
         if (nextProps.record) {
             this.setState({
                 id: nextProps.record.id,
@@ -47,20 +65,13 @@ class UserUpdateModal extends React.Component {
         }
     }
 
-    onChange = e => {
-        if (e.target.id === 'user-update-name') {
-            this.setState({ name: e.target.value });
-        }
-        if (e.target.id === 'user-update-email') {
-            this.setState({ email: e.target.value });
-        }
-        if (e.target.id === 'user-update-password') {
-            this.setState({ password: e.target.value });
-        }
+    onChange = value => {
+        this.setState({ ...value });
     };
 
     onUserUpdate = e => {
         e.preventDefault();
+
         const newUser = {
             _id: this.state.id,
             name: this.state.name,
@@ -70,8 +81,28 @@ class UserUpdateModal extends React.Component {
         this.props.updateUser(newUser);
     };
 
+    renderFields = () => {
+
+        const { metadata=[] } = this.props;
+
+        return metadata.map(( field )=> {
+
+            const { label, name, type, className=''} = field;
+
+            return <FieldRenderer
+                        changeHandler={this.onChange}
+                        label={label}
+                        value={this.state[name]}
+                        error={this.state.errors[name]}
+                        name={name}
+                        type={type}
+                        className={className}
+                        {...field}
+                    />
+        });
+    }
     render() {
-        const { errors } = this.state;
+
         return (
             <div>
                 <div className="modal fade" id="update-user-modal">
@@ -83,66 +114,9 @@ class UserUpdateModal extends React.Component {
                             </div>
                             <div className="modal-body">
                                 <form noValidate onSubmit={this.onUserUpdate} id="update-user">
-                                    <input
-                                        onChange={this.onChange}
-                                        value={this.state.id}
-                                        id="user-update-id"
-                                        type="text"
-                                        className="d-none"/>
-                                    <div className="row mt-2">
-                                        <div className="col-md-3">
-                                            <label htmlFor="name">Name</label>
-                                        </div>
-                                        <div className="col-md-9">
-                                            <input
-                                                onChange={this.onChange}
-                                                value={this.state.name}
-                                                id="user-update-name"
-                                                type="text"
-                                                error={errors.name}
-                                                className={classnames("form-control", {
-                                                    invalid: errors.name
-                                                })}/>
-                                            <span className="text-danger">{errors.name}</span>
-                                        </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="col-md-3">
-                                            <label htmlFor="email">Email</label>
-                                        </div>
-                                        <div className="col-md-9">
-                                            <input
-                                                onChange={this.onChange}
-                                                value={this.state.email}
-                                                error={errors.email}
-                                                id="user-update-email"
-                                                type="email"
-                                                className={classnames("form-control", {
-                                                    invalid: errors.email
-                                                })}
-                                            />
-                                            <span className="text-danger">{errors.email}</span>
-                                        </div>
-                                    </div>
-                                    <div className="row mt-2">
-                                        <div className="col-md-3">
-                                            <label htmlFor="password">Password</label>
-                                        </div>
-                                        <div className="col-md-9">
-                                            <input
-                                                data-reset-input={true}
-                                                autoComplete={''}
-                                                onChange={this.onChange}
-                                                error={errors.password}
-                                                id="user-update-password"
-                                                type="password"
-                                                className={classnames("form-control", {
-                                                    invalid: errors.password
-                                                })}
-                                            />
-                                            <span className="text-danger">{errors.password}</span>
-                                        </div>
-                                    </div>
+        
+                                  { this.renderFields() }
+                                  
                                 </form>
                             </div>
                             <div className="modal-footer">

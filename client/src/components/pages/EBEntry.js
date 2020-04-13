@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from "react";
-import Navbar from "../partials/Navbar";
-import Sidebar from "../partials/Sidebar";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faList} from "@fortawesome/free-solid-svg-icons/faList";
 import ReactDatatable from '@ashvin27/react-datatable';
@@ -8,47 +6,37 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import UserAddModal from "../partials/UserAddModal";
-import UserUpdateModal from "../partials/UserUpdateModal";
+import UpdateModal from "../partials/UpdateModal";
 import { toast, ToastContainer} from "react-toastify";
 import DefaultLayout from "../layout/DefaultLayout";
 
-import UserMetadata from './metadata/userMetadata';
+import EBListMetadata from "./metadata/ebListMetadata";
 
-class Users extends Component {
+class EBEntry extends Component {
 
     constructor(props) {
         super(props);
 
+        this.columnFields = [];
+
+        const { components = [] } = EBListMetadata;
+
+        components.map(( field )=> {
+    
+            const { label, name } = field;
+    
+            this.columnFields.push({
+                key: name,
+                text: label,
+                className: name,
+                align: "left",
+                sortable: true,
+            });
+        
+        });
+
         this.columns = [
-            {
-                key: "_id",
-                text: "Id",
-                className: "id",
-                align: "left",
-                sortable: true,
-            },
-            {
-                key: "name",
-                text: "Name",
-                className: "name",
-                align: "left",
-                sortable: true,
-            },
-            {
-                key: "email",
-                text: "Email",
-                className: "email",
-                align: "left",
-                sortable: true
-            },
-            {
-                key: "date",
-                text: "Date",
-                className: "date",
-                align: "left",
-                sortable: true
-            },
+            ...this.columnFields,
             {
                 key: "action",
                 text: "Action",
@@ -61,7 +49,7 @@ class Users extends Component {
                         <Fragment>
                             <button
                                 data-toggle="modal"
-                                data-target="#update-user-modal"
+                                data-target="#update-modal"
                                 className="btn btn-primary btn-sm"
                                 onClick={() => this.editRecord(record)}
                                 style={{marginRight: '5px'}}>
@@ -81,8 +69,8 @@ class Users extends Component {
         this.config = {
             page_size: 10,
             length_menu: [ 10, 20, 50 ],
-            filename: "Users",
-            no_data_text: 'No user found!',
+            filename: "EBEntry",
+            no_data_text: 'Loading....',
             button: {
                 excel: true,
                 print: true,
@@ -112,11 +100,14 @@ class Users extends Component {
         this.state = {
             currentRecord: {
                 id: '',
-                name: '',
-                email: '',
-                password: '',
-                password2: '',
-            }
+                lab: '',
+                projectTitle: '',
+                projectNo: '',
+                ebNumber: '',
+                actionPts: '',
+                date: ''
+            },
+            isEditView: false
         };
 
         this.getData = this.getData.bind(this);
@@ -132,21 +123,25 @@ class Users extends Component {
 
     getData() {
         axios
-            .post("/api/user-data")
+            .post("/api/eb-entries-data")
             .then(res => {
+                if(res && res.data && res.data.length <=0 ){
+                    this.config.no_data_text='NO EB Entries found.'
+                }
                 this.setState({ records: res.data})
             })
-            .catch()
+            .catch( err => {
+                this.config.no_data_text='NO EB Entries found.'
+            })
     }
 
     editRecord(record) {
-        debugger;
-        this.setState({ currentRecord: record});
+        this.setState({ currentRecord: record, isEditView: true});
     }
 
     deleteRecord(record) {
         axios
-            .post("/api/user-delete", {_id: record._id})
+            .post("/api/eb-entry-delete", {_id: record._id})
             .then(res => {
                 if (res.status === 200) {
                    toast(res.data.message, {
@@ -162,19 +157,30 @@ class Users extends Component {
         console.log("OnPageChange", pageData);
     }
 
+    onModalClose(){
+        this.setState({isEditView: false});
+    }
+
     render() {
+        
         return (
-           <DefaultLayout>
-                <UserAddModal/>
-                <UserUpdateModal 
-                    record={this.state.currentRecord}
-                    metadata={UserMetadata}
-                />
-                <div id="page-content-wrapper">
+            <DefaultLayout>
+  
+                    <UpdateModal 
+                        record={this.state.currentRecord}
+                        metadata={EBListMetadata}
+                        isEditView={this.state.isEditView}
+                        onClose={ this.onModalClose }
+                    />
+                    <div id="page-content-wrapper">
                         <div className="container-fluid">
-                            <button className="btn btn-link mt-3" id="menu-toggle"><FontAwesomeIcon icon={faList}/></button>
-                            <button className="btn btn-outline-primary float-right mt-3 mr-2" data-toggle="modal" data-target="#add-user-modal"><FontAwesomeIcon icon={faPlus}/> Add User</button>
-                            <h1 className="mt-2 text-primary">Users List</h1>
+                            <button className="btn btn-link mt-3" id="menu-toggle">
+                                <FontAwesomeIcon icon={faList}/>
+                            </button>
+                            <button className="btn btn-outline-primary float-right mt-3 mr-2" data-toggle="modal" data-target="#update-modal">
+                                <FontAwesomeIcon icon={faPlus}/> Add 
+                            </button>
+                            <h1 className="mt-2 text-primary">EBEntry List</h1>
                             <ReactDatatable
                                 config={this.config}
                                 records={this.state.records}
@@ -182,14 +188,15 @@ class Users extends Component {
                                 onPageChange={this.pageChange.bind(this)}
                             />
                         </div>
-                </div>
-           </DefaultLayout>
+                    </div>
+
+            </DefaultLayout>
         );
     }
 
 }
 
-Users.propTypes = {
+EBEntry.propTypes = {
     auth: PropTypes.object.isRequired,
 };
 
@@ -200,4 +207,4 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps
-)(Users);
+)(EBEntry);

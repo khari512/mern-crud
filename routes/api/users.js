@@ -6,9 +6,14 @@ const keys = require('../../config/keys');
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const validateUpdateUserInput = require('../../validation/updateUser');
-const User = require('../../models/User');
 
-router.post('/user-add', (req, res) => {
+const EBEntry = require('../../models/EBEntry');
+const User = require('../../models/User');
+const Lab = require('../../models/Lab');
+const Project = require('../../models/Project');
+
+
+router.post(['/register','/user-add'], (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
     if (!isValid) {
         return res.status(400).json(errors);
@@ -45,6 +50,92 @@ router.post('/user-data', (req, res) => {
     });
 });
 
+
+/* EB calls */
+
+router.post('/eb-entries-data', (req, res) => {
+    EBEntry.find({}).then(user => {
+        if (user) {
+            return res.status(200).send(user);
+        }
+    });
+});
+
+router.put('/update-eblist', (req, res) => {
+    // const { errors, isValid } = validateUpdateUserInput(req.body);
+    // if (!isValid) {
+    //     return res.status(400).json(errors);
+    // }
+    console.log(req.body);
+    const id = req.body.id;
+
+    EBEntry.findOne({ _id: id }).then( ebentry => {
+
+        if ( ebentry ) {
+            
+            let {_id, ...values} = req.body;
+           
+            EBEntry.updateOne({ _id: ebentry._id}, {$set: values}, function(err, result) {
+                if (err) {
+                    return res.status(400).json(err);
+                } else {
+                    return res.status(200).json({ message: 'EB Entry updated successfully. Refreshing data...', success: true });
+                }
+            });
+
+        }else{
+            return res.status(400).json({ message: 'Now Eb Entry found to update.' });
+        }
+    });
+});
+
+router.post('/eb-entry-delete', (req, res) => {
+    EBEntry.deleteOne({ _id: req.body._id}).then(entry => {
+        if (entry) {
+            return res.status(200).json({message: 'Eb Entry deleted successfully. Refreshing data...', success: true})
+        }
+    });
+});
+
+router.post('/update-eblist', (req, res) => {
+    // const { errors, isValid } = validateUpdateUserInput(req.body);
+    // if (!isValid) {
+    //     return res.status(400).json(errors);
+    // }
+
+    let {_id, ...values} = req.body;
+    const ebentry =  new EBEntry({...values}); 
+    ebentry.save()
+    .then( resp => res.status(200).json({ message: 'EB Entry saved successfully. Refreshing data...', success: true }) )
+    .catch( err => res.status(400).json(err) )
+
+});
+
+router.get('/labs', (req, res) => {
+    Lab.find({}).then(labs => {
+        if (labs) {
+            return res.status(200).send(labs);
+        }
+        else{
+            return res.status(200).send('No Records for Labs');
+        }
+    });
+});
+
+router.get('/projects', (req, res) => {
+    
+    let labName = req.query.lab;
+
+    Project.find({labName}).then( projects => {
+        if (projects) {
+            return res.status(200).send(projects);
+        }
+        else{
+            return res.status(200).send('No Records for projects');
+        }
+    });
+});
+
 router.post('/user-delete', (req, res) => {
     User.deleteOne({ _id: req.body._id}).then(user => {
         if (user) {
@@ -59,7 +150,7 @@ router.post('/user-update', (req, res) => {
         return res.status(400).json(errors);
     }
     const _id = req.body._id;
-    User.findOne({ _id }).then(user => {
+    User.findOne({ _id }).then( user => {
         if (user) {
             if (req.body.password !== '') {
                 bcrypt.genSalt(10, (err, salt) => {

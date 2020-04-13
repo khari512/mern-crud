@@ -1,30 +1,27 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const UserSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        default: Date.now
-    }
-});
 
-UserSchema.virtual('id').get(function(){
+const ProjectSchema = new Schema({
+    lab: {
+        type: String,
+        required: true
+    },
+    projectTitle: {
+        type: String,
+        required: true
+    },
+    projectNo: {
+        type: String,
+        required: true
+    }
+},{ collection: 'projects'});
+
+ProjectSchema.virtual('id').get(function(){
     return this._id.toHexString();
 });
 
-UserSchema.set('toJSON', {
+ProjectSchema.set('toJSON', {
     virtuals: true
 });
 
-module.exports = User = mongoose.model("User", UserSchema);
+module.exports = Lab = mongoose.model("project", ProjectSchema);

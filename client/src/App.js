@@ -19,6 +19,8 @@ import '../node_modules/jquery/dist/jquery.min';
 import '../node_modules/popper.js/dist/popper';
 
 import User from "./components/pages/Users";
+import EBEntry from "./components/pages/EBEntry";
+import Landing from "./components/layout/Landing";
 
 if (localStorage.jwtToken) {
     const token = localStorage.jwtToken;
@@ -40,11 +42,13 @@ class App extends Component {
                     <div className="App">
                         <Switch>
                             <Route exact path="/" component={Login} />
+                            <Route exact path="/land" component={Landing} />
                             <Route exact path="/register" component={Register} />
                             <Route exact path="/login" component={Login} />
                             <Switch>
                                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                                 <PrivateRoute exact path="/users" component={User} />
+                                <PrivateRoute exact path="/ebList" component={EBEntry} />
                             </Switch>
                             <Route exact path="*" component={NotFound} />
                         </Switch>
