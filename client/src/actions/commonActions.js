@@ -4,6 +4,7 @@ import {
     ADD_RECORD,
     UPDATE_RECORD
 } from "./types";
+import { get } from "lodash";
 
 export const addRecord = (record, history) => dispatch => {
     axios
@@ -40,7 +41,7 @@ export const updateRecord = (endpoint = {}, record ) => dispatch => {
 
             dispatch({
                 type: GET_ERRORS,
-                payload: err && err.response && err.response.data
+                payload: get(err,'response.data.errors',{'message': 'Something went wrong'})
             })
         }
     );

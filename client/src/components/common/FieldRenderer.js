@@ -42,7 +42,7 @@ const FieldRenderer = ( props = {} ) => {
                     id={`user-update-${name}`}
                     type={type}
                     className={classnames(`form-control ${className}`, {
-                        invalid: error
+                        'is-invalid': error
                     })}
                 
                 />
@@ -58,7 +58,7 @@ const FieldRenderer = ( props = {} ) => {
                         id={`user-update-${name}`}
                         type={type}
                         className={classnames(`form-control ${className}`, {
-                            invalid: error
+                            'is-invalid': error
                         })}
                     />
         }
@@ -74,7 +74,7 @@ const FieldRenderer = ( props = {} ) => {
             </div>
             <div className="col-md-9">
                 { renderField() }
-                <span className="text-danger">{error}</span>
+                <span className="text-danger">{ error && error.message }</span>
             </div>
         </div>
     );
