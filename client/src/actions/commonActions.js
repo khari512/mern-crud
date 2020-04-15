@@ -33,7 +33,7 @@ export const updateRecord = (endpoint = {}, record ) => dispatch => {
             debugger;
             dispatch({
                 type: UPDATE_RECORD,
-                payload: res,
+                payload: res.data,
             })
         }
         ).catch(err => {

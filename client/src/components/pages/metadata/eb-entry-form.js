@@ -1,6 +1,6 @@
 
 const EBEntryFields =  [
-    
+   
     { 
         name:'lab', label:'Labs', type:'Lookup', 
         endpoint:{
@@ -20,7 +20,6 @@ const EBEntryFields =  [
             }
         } 
     },
-
     { 
         name:'projectTitle', 
         label:'Project Title', 
@@ -42,6 +41,50 @@ const EBEntryFields =  [
                   ]
             }
         }
+    },
+    {
+        name: 'projectNo',
+        label: 'Project No.',
+        type: 'lookup',
+        depedentFieldName: 'lab',
+        endpoint:{
+            url: '/api/projects',
+            q: 'lab',
+            responseMapping:{
+                "mappings": [
+                    {
+                      "from": "projectNo",
+                      "to": "label"
+                    },
+                    {
+                        "from": "projectNo",
+                        "to": "value"
+                    }
+                  ]
+            }
+        }
+    },
+    {
+        name: 'ebNumber',
+        label: 'EB Number',
+        type: 'lookup',
+        options:[
+            { label: '1' , value: '1' },
+            { label: '2' , value: '2' },
+            { label: '3' , value: '3' },
+            { label: '4' , value: '4' }
+        ]
+
+    },
+    {
+        name:'actionPts',
+        label: 'Action Points',
+        type: 'text'
+    },
+    {
+        name: 'date',
+        label: 'Date of EB',
+        type: 'Date'
     }
   
 ];

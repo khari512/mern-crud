@@ -2,8 +2,9 @@ import {
     SET_CURRENT_USER,
     USER_ADD,
     USER_LOADING,
-    USER_UPDATE
-} from "../actions/types";
+    USER_UPDATE,
+    UPDATE_RECORD
+} from "actions/types";
 const isEmpty = require("is-empty");
 const initialState = {
     isAuthenticated: false,
@@ -32,6 +33,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 loading: true
+            };
+        case UPDATE_RECORD:
+            return {
+                ...state,
+                response: action.payload,
             };
         default:
             return state;

@@ -8,7 +8,7 @@ import DefaultLayout from "components/layout/DefaultLayout";
 import FieldRenderer from 'components/common/FieldRenderer';
 import { updateRecord } from "actions/commonActions";
 import EBEntryFormMetadata from "components/pages/metadata/eb-entry-form";
-
+import { get } from "lodash";
 
 const EBEntryForm = ( props ) => {
     
@@ -21,6 +21,16 @@ const EBEntryForm = ( props ) => {
     useEffect( () => {
         setErrors(props.errors);
     },[ props.errors ]);
+
+    useEffect( () => {
+        const response = get(props,'auth.response',{});
+        response.success && toast(response.message, {
+            position: toast.POSITION.TOP_CENTER,
+        })
+
+    },[ props.auth.response ]);
+
+  
 
     const onChange = value => {
 
