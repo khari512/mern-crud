@@ -2,7 +2,7 @@
 const EBListFields =  [
     
     { 
-        name:'lab', label:'Labs', type:'Lookup', 
+        name:'lab', label:'Lab Name', type:'Lookup', 
         endpoint:{
             url: `/api/labs`,
             q: `name`,
@@ -42,12 +42,42 @@ const EBListFields =  [
                   ]
             }
         }
+    },
+    { 
+        name:'projectNo', 
+        label:'Project Number', 
+        type:'Lookup',
+        depedentFieldName: 'lab',
+        endpoint:{
+            url: '/api/projects',
+            q: 'lab',
+            responseMapping:{
+                "mappings": [
+                    {
+                      "from": "projectNo",
+                      "to": "label"
+                    },
+                    {
+                        "from": "projectNo",
+                        "to": "value"
+                    }
+                  ]
+            }
+        }
+    },
+    {
+        name:'ebNumber',label:'EB Number',type:'number'
+    },
+    {
+        name:'ebDate',label:'Date of EB',type:'date'
+    },
+    {
+        name:'actionPoints',label:'Action Points',type:'text'
     }
-  
 ];
 
 const EBListMetadata = {
-    title: 'Update EB List',
+    title: 'Add EB Entry',
     components: EBListFields,
     endpoints:[
         {

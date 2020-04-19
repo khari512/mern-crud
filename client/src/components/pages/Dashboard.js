@@ -41,7 +41,7 @@ class Dashboard extends Component {
                                     <div className="card bg-secondary text-white shadow-lg">
                                         <div className="card-body">
                                             <h5 className="card-title">EB Manager</h5>
-                                            <p className="card-text">Description about EB Manager.</p>
+                                            <p className="card-text">Description about EB Meetings Manager.</p>
                                             <a href="/eb-list" className="btn btn-light">EB Manager</a>
                                         </div>
                                     </div>
@@ -49,20 +49,18 @@ class Dashboard extends Component {
                                 <div className="col-sm-3 p-sm-2">
                                     <div className="card bg-info text-white shadow-lg">
                                         <div className="card-body">
-                                            <h5 className="card-title">Special title treatment</h5>
-                                            <p className="card-text">With supporting text below as a natural lead-in to
-                                                additional content.</p>
-                                            <a href="#" className="btn btn-light">Go somewhere</a>
+                                            <h5 className="card-title">IFA File Manager</h5>
+                                            <p className="card-text">Description about IFA File Manager.</p>
+                                            <a href="#" className="btn btn-light">File Manager</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-sm-3 p-sm-2">
                                     <div className="card bg-dark text-white shadow-lg">
                                         <div className="card-body">
-                                            <h5 className="card-title">Special title treatment</h5>
-                                            <p className="card-text">With supporting text below as a natural lead-in to
-                                                additional content.</p>
-                                            <a href="#" className="btn btn-light">Go somewhere</a>
+                                            <h5 className="card-title">Project Manager</h5>
+                                            <p className="card-text">Description about Project Manager.</p>
+                                            <a href="#" className="btn btn-light">Project Manager</a>
                                         </div>
                                     </div>
                                 </div>
