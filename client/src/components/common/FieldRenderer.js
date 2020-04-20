@@ -1,6 +1,7 @@
 import React, {useState, useEffect}  from 'react';
 import classnames from 'classnames';
 import Lookup from './Lookup';
+import Number from "./Number";
 
 
 const FieldRenderer = ( props = {} ) => {
@@ -46,6 +47,20 @@ const FieldRenderer = ( props = {} ) => {
                     })}
                 
                 />
+            case 'number':
+                return <Number
+                            {...props}
+                            onChange={ ( obj ) => {
+                                //setValue(e.target.value);
+                                changeHandler && changeHandler( obj );
+                            }}
+                            value={value}
+                            error={error}
+                            id={`user-update-${name}`}
+                            className={classnames(`form-control ${className}`, {
+                                'is-invalid': error
+                            })}
+                        />
             default:
                 return <input
                         {...props}
