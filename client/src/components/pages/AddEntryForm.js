@@ -22,7 +22,7 @@ const AddEntryForm = ( props ) => {
     const [ errors, setErrors ] = useState({});
     const { updateRecord } = props;
     const { components=[], title = 'Add Entry', endpoints=[] } = getMetadata() || {};
-    const updateEndpoint = endpoints.find( endpoint => endpoint.type === 'CREATE' );
+    const updateEndpoint = endpoints.find( endpoint => endpoint.type === 'UPDATE' );
     
     useEffect( () => {
         setErrors(props.errors);
@@ -65,15 +65,15 @@ const AddEntryForm = ( props ) => {
 
         return components.map(( field )=> {
     
-            const { label, name, type, className='', depedentFieldName} = field;
+            const { label, name, type, className='', dependentFieldName} = field;
     
             return <FieldRenderer
                         changeHandler={onChange}
                         label={label}
+                        parentPageState={modalFormState}
                         value={modalFormState[name]}
                         error={errors[name]}
-                        depedentFieldValue={modalFormState[depedentFieldName]}
-                        depedentField={ { name: depedentFieldName, value : modalFormState[depedentFieldName] } }
+                        dependentField={ dependentFieldName }
                         name={name}
                         type={type}
                         className={className}

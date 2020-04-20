@@ -24,10 +24,12 @@ const EBEntryFields =  [
         name:'projectTitle', 
         label:'Project Title', 
         type:'Lookup',
-        depedentFieldName: 'lab',
+        dependentFieldName: 'lab',
         endpoint:{
             url: '/api/projects',
-            q: 'lab',
+            params:{
+                'labName': 'lab'
+            },
             responseMapping:{
                 "mappings": [
                     {
@@ -46,10 +48,12 @@ const EBEntryFields =  [
         name: 'projectNo',
         label: 'Project No.',
         type: 'lookup',
-        depedentFieldName: 'lab',
+        dependentFieldName: 'projectTitle',
         endpoint:{
             url: '/api/projects',
-            q: 'lab',
+            params:{
+                'projectTitle': 'projectTitle'
+            },
             responseMapping:{
                 "mappings": [
                     {

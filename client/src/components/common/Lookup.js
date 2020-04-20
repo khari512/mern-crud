@@ -1,22 +1,26 @@
 import React, {useState,useEffect} from 'react';
 import Select from 'react-select';
 import axios from 'axios';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 const Lookup = ( props ) => {
     const [options, setOptions ] = useState(props.options || []);
     const [ selectedOption, setSelectedOption ] = useState('');
-    const { name, changeHandler, endpoint, depedentField, value, depedentFieldValue } = props;
-    //const depedentFieldValue = depedentField && depedentField.value;
+    const { name, changeHandler, endpoint, dependentFieldName, value, parentPageState={} } = props;
+    const dependentFieldValue = parentPageState[dependentFieldName];
 
     const compileParams = () => {
-       const { q } = endpoint || {};
-       const { name, value } = depedentField || {};
-
-       return  name && 
-               name === q && 
-               value && 
-               `${q}=${value}`;
+       const { params={} } = endpoint;
+       let queryParam = '';
+       for (const key in params) {
+           if (params.hasOwnProperty(key)) {
+               const value = params[key];
+               const querySepartor = isEmpty(queryParam) ? '' : '&' ;
+               queryParam = queryParam + querySepartor +`${key}=${parentPageState[value]}`;
+           }
+       }
+ 
+       return  queryParam;
 
     }
 
@@ -52,13 +56,13 @@ const Lookup = ( props ) => {
             setOptions([]);
             console.error(err);
         })
-    }, [ depedentFieldValue ] );
+    }, [ dependentFieldValue ] );
 
 
     useEffect( () => {
         const selectedOption = options && options.find( option => option.value == value )
         selectedOption && setSelectedOption(selectedOption);
-    }, [ value, depedentFieldValue ]);
+    }, [ value, dependentFieldValue ]);
   
 
     const handleChange = (selectedOption) => {
