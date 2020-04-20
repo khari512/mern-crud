@@ -53,7 +53,7 @@ router.post('/user-data', (req, res) => {
 
 /* EB calls */
 
-router.post('/eb-entries-data', (req, res) => {
+router.get('/eb-entries-data', (req, res) => {
     EBEntry.find({}).then(user => {
         if (user) {
             return res.status(200).send(user);
@@ -67,14 +67,14 @@ router.put('/update-eblist', (req, res) => {
     //     return res.status(400).json(errors);
     // }
     console.log(req.body);
-    const id = req.body.id;
+    const projectNo = req.body.projectNo;
 
-    EBEntry.findOne({ _id: id }).then( ebentry => {
+    EBEntry.findOne({projectNo}).then( ebentry => {
 
+        let {_id, ...values} = req.body;
+        
         if ( ebentry ) {
             
-            let {_id, ...values} = req.body;
-           
             EBEntry.updateOne({ _id: ebentry._id}, {$set: values}, function(err, result) {
                 if (err) {
                     return res.status(400).json(err);
@@ -84,7 +84,10 @@ router.put('/update-eblist', (req, res) => {
             });
 
         }else{
-            return res.status(400).json({ message: 'Now Eb Entry found to update.' });
+            const ebentryObj =  new EBEntry({...values}); 
+            ebentryObj.save()
+            .then( res => res.status(200).json({ message: 'EB Entry saved successfully.', success: true }) )
+            .catch( err => res.status(400).json(err) )
         }
     });
 });
@@ -124,9 +127,8 @@ router.get('/labs', (req, res) => {
 
 router.get('/projects', (req, res) => {
     
-    let labName = req.query.lab;
-
-    Project.find({labName}).then( projects => {
+    console.log(JSON.stringify(req.query));
+    Project.find(req.query).then( projects => {
         if (projects) {
             return res.status(200).send(projects);
         }
