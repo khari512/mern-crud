@@ -12,6 +12,7 @@ const Lookup = ( props ) => {
     const compileParams = () => {
        const { params={} } = endpoint;
        let queryParam = '';
+
        for (const key in params) {
            if (params.hasOwnProperty(key)) {
                const value = params[key];
@@ -49,7 +50,15 @@ const Lookup = ( props ) => {
 
            const options = transformedOptions || data;
            setOptions(options);
-           const selectedOption = options && options.find( option => option.value == value )
+           let selectedOption;
+
+           if(options && options.length === 1 ){
+            selectedOption = options[0];
+           }
+           else{
+            selectedOption = options && options.find( option => option.value == value )
+           }
+          
            selectedOption && setSelectedOption(selectedOption);
 
         }).catch(err => {
