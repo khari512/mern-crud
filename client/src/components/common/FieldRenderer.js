@@ -61,6 +61,22 @@ const FieldRenderer = ( props = {} ) => {
                                 'is-invalid': error
                             })}
                         />
+            case 'textarea':
+                return <textarea
+                            {...props}
+                            rows='4'
+                            cols='50'
+                            onChange={ ( e ) => {
+                                setValue(e.target.value);
+                                changeHandler && changeHandler( { [name] : e.target.value } );
+                            }}
+                            value={value}
+                            error={error}
+                            id={`user-update-${name}`}
+                            className={classnames(`form-control ${className}`, {
+                                'is-invalid': error
+                            })}
+                        />
             default:
                 return <input
                         {...props}

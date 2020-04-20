@@ -79,7 +79,8 @@ const EBEntryFields =  [
     {
         name:'actionPts',
         label: 'Action Points',
-        type: 'text'
+        type: 'textarea'
+
     },
     {
         name: 'date',
