@@ -12,7 +12,6 @@ const FieldRenderer = ( props = {} ) => {
 
     const { 
             label='Label', 
-            type='text', 
             error, 
             name='name', 
             changeHandler, 
@@ -101,6 +100,7 @@ const FieldRenderer = ( props = {} ) => {
                             changeHandler && changeHandler( { [name] : e.target.value } );
                         }}
                         value={value}
+                        type={'text'}
                         error={error}
                         id={`user-update-${name}`}
                         type={type}

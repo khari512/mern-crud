@@ -11,12 +11,27 @@ const Table = ( props ) => {
     const [config, setConfig ] = useState( configurations );
     const dependentFieldValue = parentPageState[dependentFieldName];
     
+    const compileParams = () => {
+        const { params={} } = endpoint;
+        let queryParam = '';
+ 
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const value = params[key];
+                const querySepartor = isEmpty(queryParam) ? '' : '&' ;
+                queryParam = queryParam + querySepartor +`${key}=${parentPageState[value]}`;
+            }
+        }
+  
+        return  queryParam;
+ 
+     }
 
     useEffect( () => {
 
-        const { url, q } = endpoint; 
-
-        const compiledUrl =  q ? `${url}?${q}=${parentPageState[dependentFieldName]}` : `${url}`;
+        const { url } = endpoint; 
+        const queryParam =  compileParams();
+        const compiledUrl =  isEmpty(queryParam) ? `${url}`: `${url}?${queryParam}` ;
 
         setConfig({
             ...config,

@@ -5,7 +5,6 @@ const EBDueListFields =  [
         name:'lab', label:'Labs', type:'Lookup', 
         endpoint:{
             url: `/api/labs`,
-            q: `name`,
             responseMapping:{
                 "mappings": [
                     {
@@ -34,7 +33,9 @@ const EBDueListFields =  [
         ],
         endpoint: {
             url: '/api/projects',
-            q: 'lab'
+            params:{
+                'labName': 'lab'
+            }
         },
         configuartions: {
             page_size: 10,
