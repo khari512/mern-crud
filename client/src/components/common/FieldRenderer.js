@@ -2,6 +2,7 @@ import React, {useState, useEffect}  from 'react';
 import classnames from 'classnames';
 import Lookup from './Lookup';
 import Number from "./Number";
+import DateField from './DateField';
 
 
 const FieldRenderer = ( props = {} ) => {
@@ -60,6 +61,21 @@ const FieldRenderer = ( props = {} ) => {
                             className={classnames(`form-control ${className}`, {
                                 'is-invalid': error
                             })}
+                        />
+            case 'date':
+                return <DateField
+                            {...props}
+                            onChange={ ( date ) => {
+                               // setValue(e.target.value);
+                                changeHandler && changeHandler( { [name] : date } );
+                            }}
+                            value={value}
+                            error={error}
+                            id={`user-update-${name}`}
+                            type={type}
+                            className={classnames(`form-control ${className}`, {
+                                'is-invalid': error
+                            })}      
                         />
             case 'textarea':
                 return <textarea
