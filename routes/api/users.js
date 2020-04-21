@@ -79,7 +79,7 @@ router.put('/update-eblist', (req, res) => {
                 if (err) {
                     return res.status(400).json(err);
                 } else {
-                    return res.status(200).json({ message: 'EB Entry updated successfully. Refreshing data...', success: true });
+                    return res.status(200).json({ message: 'EB Entry updated successfully.', success: true });
                 }
             });
 
