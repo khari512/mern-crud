@@ -30,14 +30,14 @@ export const updateRecord = (endpoint = {}, record ) => dispatch => {
             data: record
         })
         .then(res => {
-            debugger;
+           // debugger;
             dispatch({
                 type: UPDATE_RECORD,
                 payload: res.data,
             })
         }
         ).catch(err => {
-            debugger;
+           // debugger;
 
             dispatch({
                 type: GET_ERRORS,

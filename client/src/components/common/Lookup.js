@@ -54,6 +54,7 @@ const Lookup = ( props ) => {
 
            if(options && options.length === 1 ){
             selectedOption = options[0];
+            changeHandler && changeHandler( { [name] : selectedOption.value } );
            }
            else{
             selectedOption = options && options.find( option => option.value == value )

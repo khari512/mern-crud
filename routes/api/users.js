@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
+
 const keys = require('../../config/keys');
 const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
@@ -11,6 +13,7 @@ const EBEntry = require('../../models/EBEntry');
 const User = require('../../models/User');
 const Lab = require('../../models/Lab');
 const Project = require('../../models/Project');
+
 
 
 router.post(['/register','/user-add'], (req, res) => {
@@ -71,11 +74,13 @@ router.put('/update-eblist', (req, res) => {
 
     EBEntry.findOne({projectNo}).then( ebentry => {
 
-        let {_id, ...values} = req.body;
+        let {_id, ebDate, ...values} = req.body;
+       
+        const date = moment(ebDate, "DD/MM/YYYY");
         
         if ( ebentry ) {
             
-            EBEntry.updateOne({ _id: ebentry._id}, {$set: values}, { $setOnInsert: { ebDate: new Date(req.body.ebDate) } }, function(err, result) {
+            EBEntry.updateOne({ _id: ebentry._id}, {$set: values}, { $setOnInsert: { ebDate: date.toDate() } }, function(err, result) {
                 if (err) {
                     return res.status(400).json(err);
                 } else {
