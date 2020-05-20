@@ -22,7 +22,7 @@ const EBEntrySchema = new Schema({
         type: String,
         required: true
     },
-    date: {
+    ebDate: {
         type: Date,
         default: Date.now
     }

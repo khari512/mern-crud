@@ -51,12 +51,11 @@ const Table = ( props ) => {
             .catch( err => {
                 setConfig({
                     ...config,
-                    no_data_text: 'NO EB Entries found.'
+                    no_data_text: 'Error.Not able to retrive the entries.'
                 });
             })
 
     }, [ dependentFieldValue ] );
-
 
 
     useEffect( () => {

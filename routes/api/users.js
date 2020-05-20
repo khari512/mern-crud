@@ -75,7 +75,7 @@ router.put('/update-eblist', (req, res) => {
         
         if ( ebentry ) {
             
-            EBEntry.updateOne({ _id: ebentry._id}, {$set: values}, function(err, result) {
+            EBEntry.updateOne({ _id: ebentry._id}, {$set: values}, { $setOnInsert: { ebDate: new Date(req.body.ebDate) } }, function(err, result) {
                 if (err) {
                     return res.status(400).json(err);
                 } else {

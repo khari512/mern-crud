@@ -25,6 +25,38 @@ class Sidebar extends Component {
                     <Link to="/events" className="list-group-item list-group-item-action">Events</Link>
                     <button className="list-group-item list-group-item-action" onClick={this.onLogoutClick}>Logout <FontAwesomeIcon icon={faSignOutAlt} /></button>
                 </div>
+                {/* <nav id="navbar-example3" class="navbar navbar-light bg-light">
+                    
+                        <nav class="nav nav-pills flex-column">
+                            <a class="nav-link" href="#item-1">EB Manager</a>
+                            <nav class="nav nav-pills flex-column">
+                                <a class="nav-link ml-3 my-1" href="#item-1-1">Add EB Entry</a>
+                                <a class="nav-link ml-3 my-1" href="#item-1-2">EB Due List</a>
+                                <Link to="/eb-due-list" className="nav-link ml-3 my-1">EB Due List</Link>
+                            </nav>
+                            <a class="nav-link" href="#item-2">Item 2</a>
+                            <a class="nav-link" href="#item-3">Item 3</a>
+                            <nav class="nav nav-pills flex-column">
+                                <a class="nav-link ml-3 my-1" href="#item-3-1">Item 3-1</a>
+                                <a class="nav-link ml-3 my-1" href="#item-3-2">Item 3-2</a>
+                            </nav>
+                        </nav>
+                    </nav>
+                
+                    <div id="list-example" class="list-group">
+                        <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
+                        <div id="list-example" class="list-group">
+                            <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
+                            <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
+                            <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
+                            <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
+                        </div>
+                        <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
+                        <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
+                        <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
+                    </div> */}
+
+
             </div>
         );
     }

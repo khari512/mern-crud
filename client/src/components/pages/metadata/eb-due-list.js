@@ -37,7 +37,7 @@ const EBDueListFields =  [
                 'labName': 'lab'
             }
         },
-        configuartions: {
+        configurations: {
             page_size: 10,
             length_menu: [ 10, 20, 50 ],
             filename: "EBEntry",

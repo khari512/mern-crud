@@ -71,7 +71,6 @@ const FieldRenderer = ( props = {} ) => {
                             value={value}
                             error={error}
                             id={`user-update-${name}`}
-                            type={type}
                             className={classnames(`form-control ${className}`, {
                                 'is-invalid': error
                             })}      

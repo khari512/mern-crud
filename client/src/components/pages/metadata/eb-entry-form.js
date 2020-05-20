@@ -87,7 +87,7 @@ const EBEntryFields =  [
 
     },
     {
-        name: 'date',
+        name: 'ebDate',
         label: 'Date of EB',
         type: 'Date'
     }
