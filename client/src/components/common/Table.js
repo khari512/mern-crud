@@ -32,27 +32,27 @@ const Table = ( props ) => {
         const { url } = endpoint; 
         const queryParam =  compileParams();
         const compiledUrl =  isEmpty(queryParam) ? `${url}`: `${url}?${queryParam}` ;
-
-        setConfig({
-            ...config,
-            no_data_text: 'Loading.....'
-        });
+        const tdObj = document.querySelector('#as-react-datatable tbody tr td');
+        tdObj.innerText = 'Loading...';
 
         setRecords( [] );
 
         axios
             .get(compiledUrl)
             .then(res => {
+                
                 if(res && res.data && res.data.length <= 0 ){
-                    this.config.no_data_text='NO EB Entries found.'
+                    const tdObj = document.querySelector('#as-react-datatable tbody tr td');
+                    tdObj.innerText = 'NO EB Entries found.';
+                    
+                }else{
+                    setRecords( res.data );
                 }
-                setRecords( res.data );
             })
             .catch( err => {
-                setConfig({
-                    ...config,
-                    no_data_text: 'Error.Not able to retrive the entries.'
-                });
+                const tdObj = document.querySelector('#as-react-datatable tbody tr td');
+                tdObj.innerText = 'Error.Not able to retrive the entries.';
+         
             })
 
     }, [ dependentFieldValue ] );
@@ -77,6 +77,8 @@ const Table = ( props ) => {
         setColumnFields( fields );
 
     },[ props.columns ]);
+
+
 
     if(!records || !columnFields){
         return <h5>No Records To Render Table</h5>

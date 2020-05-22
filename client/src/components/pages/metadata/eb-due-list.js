@@ -41,7 +41,7 @@ const EBDueListFields =  [
             page_size: 10,
             length_menu: [ 10, 20, 50 ],
             filename: "EBEntry",
-            no_data_text: 'Loading....',
+            no_data_text: 'No EB Entries found.',
             button: {
                 excel: true,
                 print: true,
