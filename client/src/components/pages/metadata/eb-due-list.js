@@ -25,14 +25,14 @@ const EBDueListFields =  [
         type:'Table',
         dependentFieldName: 'lab',
         columns: [
-            { name:'labName', label:'Lab' },
+            { name:'lab', label:'Lab' },
             { name:'projectTitle', label:'Project Title' },
             { name:'projectNo', label:'Project No.' },
-            { name:'sanctionDate', label:'Last EB Conducted' },
+            { name:'ebDate', label:'Last EB Conducted' },
             
         ],
         endpoint: {
-            url: '/api/projects',
+            url: '/api/eb-due-list',
             params:{
                 'labName': 'lab'
             }

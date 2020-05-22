@@ -56,11 +56,52 @@ router.post('/user-data', (req, res) => {
 
 /* EB calls */
 
-router.get('/eb-entries-data', (req, res) => {
-    EBEntry.find({}).then(user => {
-        if (user) {
-            return res.status(200).send(user);
+router.get('/eb-due-list', (req, res) => {
+    console.log(req.query);
+    const { labName } = req.query;
+    const projectNo = req.body.projectNo;
+
+    EBEntry.find({lab: labName}).then( ebEntries => {
+
+           
+        if ( ebEntries ) {
+            
+            const entries = ebEntries.filter( ebentry => {
+                let { ebDate } = ebentry;
+       
+                const ebDateObj = moment(ebDate);
+                const today = moment();
+                const days = today.diff(ebDate,"days");
+                console.log( 'days diff b/w '+ ebDateObj.format("DD/MM/YYYY") + " "+today.format("DD/MM/YYYY") +days );
+
+                if( days >= 180 ){
+                    return true
+                }else{
+                    return false;
+                }
+        
+            }).map( ebentry => {
+                let { ebDate, ...rest} = ebentry;
+       
+                const ebDateObj = moment(ebDate);
+                const entry = Object.assign(ebentry, {ebDateStr: ebDateObj.format("DD/MM/YYYY")})
+                
+                const test = {
+                    ...ebentry._doc,
+                    ebDate: ebDateObj.format("DD/MM/YYYY")
+                };
+
+                console.log(test);
+                return test;
+            });
+            
+            return res.status(200).send(entries);
+
+        }else{
+            return res.status(200).send("No due list found");
         }
+   
+      
     });
 });
 
