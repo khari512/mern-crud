@@ -21,3 +21,8 @@ header, main, footer {
     padding-left: 0;
   }
 }
+
+.nav-link i{
+  margin-left: 15px;
+  vertical-align: text-bottom;
+}
