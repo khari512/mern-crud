@@ -14,6 +14,9 @@ const User = require('../../models/User');
 const Lab = require('../../models/Lab');
 const Project = require('../../models/Project');
 
+const ConsolidatedEBEntry = require('../../models/ConsolidatedEBEntry');
+
+
 
 
 router.post(['/register','/user-add'], (req, res) => {
@@ -113,11 +116,19 @@ router.put('/update-eblist', (req, res) => {
     console.log(req.body);
     const projectNo = req.body.projectNo;
 
+
+    
+
     EBEntry.findOne({projectNo}).then( ebentry => {
 
         let {_id, ebDate, ...values} = req.body;
        
         const date = moment(ebDate, "DD/MM/YYYY");
+        
+        const consolidatedEBEntry =  new ConsolidatedEBEntry({...values}); 
+        consolidatedEBEntry.save()
+        .then( res => console.log('consolidated Eb Entry saved successfully..') )
+        .catch( err => console.log(err.message) )
         
         if ( ebentry ) {
             
@@ -135,6 +146,8 @@ router.put('/update-eblist', (req, res) => {
             .then( res => res.status(200).json({ message: 'EB Entry saved successfully.', success: true }) )
             .catch( err => res.status(400).json(err) )
         }
+
+
     });
 });
 
