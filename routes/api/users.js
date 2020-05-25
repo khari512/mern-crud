@@ -155,7 +155,7 @@ router.post('/update-eblist', (req, res) => {
     let {_id, ...values} = req.body;
     const ebentry =  new EBEntry({...values}); 
     ebentry.save()
-    .then( resp => res.status(200).json({ message: 'EB Entry saved successfully.', success: true }) )
+    .then( resp => res.status(200).json({ message: 'EB Entry saved successfully.Redirecting to Dashboard page..', success: true }) )
     .catch( err => res.status(400).json(err) )
 
 });

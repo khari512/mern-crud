@@ -9,6 +9,7 @@ import FieldRenderer from 'components/common/FieldRenderer';
 import { updateRecord } from "actions/commonActions";
 import { routesConfig } from "pageConfigs";
 import { get,find } from "lodash";
+import { useHistory } from "react-router-dom";
 
 const getMetadata = () => {
  const route = find(routesConfig, { path: window.location.pathname } ) || {};
@@ -20,6 +21,7 @@ const AddEntryForm = ( props ) => {
     
     const [ modalFormState, setModalFormState ] = useState( {} );
     const [ errors, setErrors ] = useState({});
+    const history = useHistory();
     const { updateRecord } = props;
     const { components=[], title = 'Add Entry', endpoints=[] } = getMetadata() || {};
     const updateEndpoint = endpoints.find( endpoint => endpoint.type === 'UPDATE' );
@@ -58,7 +60,14 @@ const AddEntryForm = ( props ) => {
 
     const onUpdate = e => {
         e.preventDefault();
-        updateRecord(updateEndpoint, modalFormState);
+        updateRecord(updateEndpoint, modalFormState)
+        .then( res => {
+            
+            setTimeout(() => {
+                history.push('/dashboard')
+            }, 5000);
+            
+        });
     };
 
     const renderFields = ( ) => {

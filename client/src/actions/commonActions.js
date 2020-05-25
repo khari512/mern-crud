@@ -24,7 +24,7 @@ export const addRecord = (record, history) => dispatch => {
 
 
 export const updateRecord = (endpoint = {}, record ) => dispatch => {
-        axios({
+    return axios({
             method: endpoint.method,
             url: endpoint.url,
             data: record
