@@ -32,7 +32,7 @@ const Table = ( props ) => {
         const { url } = endpoint; 
         const queryParam =  compileParams();
         const compiledUrl =  isEmpty(queryParam) ? `${url}`: `${url}?${queryParam}` ;
-        const tdObj = document.querySelector('#as-react-datatable tbody tr td');
+        const tdObj = document.querySelector('#as-react-datatable tbody tr td') || {};
         tdObj.innerText = 'Loading...';
 
         setRecords( [] );
@@ -50,7 +50,7 @@ const Table = ( props ) => {
                 }
             })
             .catch( err => {
-                const tdObj = document.querySelector('#as-react-datatable tbody tr td');
+                const tdObj = document.querySelector('#as-react-datatable tbody tr td') || {};
                 tdObj.innerText = 'Error.Not able to retrive the entries.';
          
             })

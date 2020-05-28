@@ -10,12 +10,8 @@ import { updateRecord } from "actions/commonActions";
 import { routesConfig } from "pageConfigs";
 import { get,find } from "lodash";
 import { useHistory } from "react-router-dom";
+import { getMetadata } from "utils/metadataUtils";
 
-const getMetadata = () => {
- const route = find(routesConfig, { path: window.location.pathname } ) || {};
-
- return route.metadata;
-}
 
 const AddEntryForm = ( props ) => {
     

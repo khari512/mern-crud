@@ -13,10 +13,9 @@ const EBEntry = require('../../models/EBEntry');
 const User = require('../../models/User');
 const Lab = require('../../models/Lab');
 const Project = require('../../models/Project');
+let lodash = require('lodash');
 
 const ConsolidatedEBEntry = require('../../models/ConsolidatedEBEntry');
-
-
 
 
 router.post(['/register','/user-add'], (req, res) => {
@@ -58,6 +57,48 @@ router.post('/user-data', (req, res) => {
 
 
 /* EB calls */
+
+router.get('/consolidated-eb-list', (req, res) => {
+    console.log(req.query);
+    const { labName } = req.query;
+    const projectNo = req.body.projectNo;
+
+    ConsolidatedEBEntry.find({lab: labName}).then( ebEntries => {
+           
+        if ( ebEntries ) {
+            const projectsByNo = lodash.groupBy(ebEntries, 'projectNo');
+            console.dir(projectsByNo);
+            const entries = ebEntries.map( ebentry => {
+                let { ebDate, ...rest} = ebentry;
+       
+                const ebDateObj = moment(ebDate);
+                const { projectNo } = rest;
+                const entry = Object.assign(ebentry, { ebDateStr: ebDateObj.format("DD/MM/YYYY") } );
+                let ebNoAndEbDateStr = "";
+                projectsByNo && projectsByNo[ebentry._doc.projectNo] && projectsByNo[ebentry._doc.projectNo].map( entry => {
+                    const ebDate = moment(entry._doc.ebDate).format("DD/MM/YYYY");
+                    ebNoAndEbDateStr = ebNoAndEbDateStr + "\n"+"EB-" + entry._doc.ebNumber  +":"+ ebDate;
+                });
+
+                const test = {
+                    ...ebentry._doc,
+                    ebDate: ebDateObj.format("DD/MM/YYYY"),
+                    ebNoAndEbDateStr
+                };
+
+                console.log(test);
+                return test;
+            });
+            
+            return res.status(200).send(entries);
+
+        }else{
+            return res.status(200).send("No Eb list found");
+        }
+   
+      
+    });
+});
 
 router.get('/eb-due-list', (req, res) => {
     console.log(req.query);
@@ -115,9 +156,6 @@ router.put('/update-eblist', (req, res) => {
     // }
     console.log(req.body);
     const projectNo = req.body.projectNo;
-
-
-    
 
     EBEntry.findOne({projectNo}).then( ebentry => {
 

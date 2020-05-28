@@ -50,8 +50,9 @@ const Sidebar = ( props ) => {
                                     'collapse' : menuName !== "#ebManager"
                                 })} 
                                 id="ebManager">
-                                <Link to="/eb-list" className="nav-link">Add EB Entry</Link>
-                                <Link to="/eb-due-list" className="nav-link">Eb Due List</Link>
+                                <Link to="/eb-list" className="nav-link" >Add EB Entry</Link>
+                                <Link to="/eb-due-list" className="nav-link">EB Due List</Link>
+                                <Link to="/consolidated-eb-list" className="nav-link">Consolidated EB List</Link>
                             </nav>
                             <a href="#" className="nav-link" onClick={onLogoutClick}>Logout <FontAwesomeIcon icon={faSignOutAlt} /></a>
                             
